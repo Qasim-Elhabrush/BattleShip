@@ -10,6 +10,7 @@ export default class gameboard{
         for(let i=0;i<10;i++){
             for(let j = 0;j<10;j++)
             this.board[i][j] ={shipName:undefined,shipIndex:undefined}
+            
         }
     }
 
@@ -39,25 +40,25 @@ export default class gameboard{
            
            
      receiveAttack(coordinateX,coordinateY){
-        if(this.board[coordinateX][coordinateY] == {shipName:undefined,shipIndex:undefined}){
-        this.missedShots.push([[coordinateX][coordinateY]])
+        if(this.board[coordinateX][coordinateY].shipName == undefined&&this.board[coordinateX][coordinateY].shipIndex == undefined){
+        this.missedShots.push([coordinateX][coordinateY])
         return true
         }        
         else{
-            if(this.ships.length==0){}
-            else{
             let indexOfHitShip = this.board[coordinateX][coordinateY].shipIndex;
-            let hitShip =this.ships[indexOfHitShip]
-            hitShip.hits.push([[coordinateX][coordinateY]]);}
+            let hitShip =this.ships[indexOfHitShip];
+            hitShip.hits.push([coordinateX][coordinateY]);
         }
     }
     allSunk(){
+        if(this.ships.length==0){return "no ships to sink"}
+        else{
         let allShipsSunk = true;
         this.ships.forEach(ship=>{
             if(ship.isSunk()!=true){
                 allShipsSunk = false;
             }            
         })
-        return allShipsSunk
+        return allShipsSunk}
     }  
 }
