@@ -1,9 +1,9 @@
 export default class Ship{
-    constructor(name,lengthOfShip,index){
+    constructor(name,lengthOfShip){
         this.name = name;        
         this.lengthOfShip=lengthOfShip;
         this.hits = [];
-        this.index = index;
+        this.index;
         
         
     }

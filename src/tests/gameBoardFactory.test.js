@@ -1,9 +1,9 @@
-import gameboard from '../factoryFunctions/gameboardFactory'
+import Gameboard from '../factoryFunctions/gameboardFactory'
 import Ship from '../factoryFunctions/shipFactory'
 describe('gameboard functions',()=>{
     let exampleGameboard;
     beforeEach(()=>{
-        exampleGameboard = new gameboard();
+        exampleGameboard = new Gameboard("player");
     });
     it('initializes the gameboard',()=>{
         exampleGameboard.initialize();
@@ -13,7 +13,7 @@ describe('gameboard functions',()=>{
 
     it('adds ship to ships array',()=>{
         exampleGameboard.initialize();
-        exampleGameboard.placeShip(0,6,"Carrier",5);
+        exampleGameboard.placeShip(0,3,"Carrier",5);
         expect(exampleGameboard.ships[0]).toEqual({name:"Carrier",lengthOfShip:5,index:0,hits:[]});
     })
 
@@ -69,9 +69,4 @@ describe('gameboard functions',()=>{
         exampleGameboard.receiveAttack(0,4);
         expect(exampleGameboard.allSunk()).toEqual(true);    
    })
-    
-    
-
-
-
 })
