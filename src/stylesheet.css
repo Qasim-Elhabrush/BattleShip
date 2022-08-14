@@ -1,4 +1,35 @@
 body{
     background-color: black;
     margin:0 auto;
+    display: flex;
+}
+#title{
+    color: white;
+    margin-top:0;
+    margin-left: 5vw;
+    font-size: 4rem;
+}
+#playerOneGameboardContainer{
+    background-color: antiquewhite;
+    padding: 1%;
+    margin-left:5vw;
+    margin-top: 5vh;
+    width: 55vw;
+    height:90vh;
+    display: grid;
+    grid-template-columns: repeat(10, .1fr);
+    grid-template-rows: repeat(10,.1fr);
+    row-gap: 2px;
+    column-gap: 2px;
+
+}
+.square{
+    background-color: blue;
+    cursor: pointer;
+}
+h4{
+    margin-top: 1vh;
+    margin-left: 3vw;
+    font-size: 2rem;
+    color: white;
 }

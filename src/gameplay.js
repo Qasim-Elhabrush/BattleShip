@@ -6,7 +6,7 @@ import Computer from "./factoryFunctions/computerFactory"
 import css from "./stylesheet.css"
 
 
-
+/*
 class Gameplay{
     constructor(){
         this.playerOne = new Player();        
@@ -41,17 +41,19 @@ class Gameplay{
     }
     play(){
         let gameEnded;
-        while(gameEnded==false){
+        while(gameEnded!=true){
             let attackLocationX = prompt("Where would you like to attack the computer(x)");
             let attackLocationY = prompt("Where would you like to attack the computer(y)");
             this.playerOne.attack(this.computerPlayer,attackLocationX,attackLocationY);
             if(this.computerPlayer.gameboard.allSunk()==true){
-                gameEnded==true
+                gameEnded=true
+                alert("Winner")
             }
             else{
                 this.computerPlayer.attack(this.playerOne,getRandomInt(0,9),getRandomInt(0,9));
                 if(this.playerOne.gameboard.allSunk()==true){
-                    gameEnded==true
+                    gameEnded=true
+                    alert("Winner")
                 }
             }
         }
@@ -65,4 +67,4 @@ class Gameplay{
 let playGame = new Gameplay();
 playGame.placeShips();
 playGame.play();
-
+*/

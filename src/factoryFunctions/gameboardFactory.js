@@ -1,5 +1,5 @@
 import Ship from "./shipFactory";
-
+import { getRandomInt } from "../supporting";
 export default class Gameboard {
   constructor(playerOrComputer) {
     this.board = [
@@ -56,7 +56,7 @@ export default class Gameboard {
           this.board[baseX][baseY + h].shipName != undefined &&
           this.board[baseX][baseY + h].shipIndex != undefined
         ) {
-         this.placeShip(baseX, baseY, nameOfShip, lengthOfShip)
+         return this.placeShip(getRandomInt(0), getRandomInt(9), nameOfShip, lengthOfShip)
         }
       }
       this.ships.push(currentShip);
@@ -65,12 +65,11 @@ export default class Gameboard {
         this.board[baseX][baseY + i].shipName = nameOfShip;
         this.board[baseX][baseY + i].shipIndex = currentShip.index;
       }
-    } else {
-     this.placeShip(baseX, baseY, nameOfShip, lengthOfShip)
+    }} else {
+     return this.placeShip(getRandomInt(0), getRandomInt(9), nameOfShip, lengthOfShip)
     }
 
     }
-  }
 
   receiveAttack(coordinateX, coordinateY) {
     if (
@@ -87,7 +86,7 @@ export default class Gameboard {
   }
   allSunk() {
     if (this.ships.length == 0) {
-      return "no ships to sink";
+      return false
     } else {
       let allShipsSunk = true;
       this.ships.forEach((ship) => {
