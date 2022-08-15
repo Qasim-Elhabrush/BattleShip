@@ -1,10 +1,11 @@
-import Gameboard from "./factoryFunctions/gameboardFactory"
-import Player from "./factoryFunctions/playerFactory"
-import Ship from "./factoryFunctions/shipFactory"
-import {getRandomInt} from "./supporting"
-import Computer from "./factoryFunctions/computerFactory"
-import css from "./stylesheet.css"
-
+import Gameboard from "./factoryFunctions/gameboardFactory";
+import Player from "./factoryFunctions/playerFactory";
+import Ship from "./factoryFunctions/shipFactory";
+import { getRandomInt } from "./supporting";
+import Computer from "./factoryFunctions/computerFactory";
+import css from "./stylesheet.css";
+import player from "./factoryFunctions/playerFactory";
+import * as supporting from "./supporting";
 
 /*
 class Gameplay{
@@ -68,3 +69,6 @@ let playGame = new Gameplay();
 playGame.placeShips();
 playGame.play();
 */
+let playerGameboard = new Gameboard("player");
+playerGameboard.initialize();
+supporting.createEventListeners();

@@ -1,5 +1,20 @@
+import * as eventListeners from "./eventListeners";
 function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min);}
-export {getRandomInt}
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
+function createSquare(id) {
+  const grid = document.getElementById("grid");
+  let square = document.createElement("div");
+  square.id = id;
+  square.className = "square";
+  grid.appendChild(square);
+}
+
+function createEventListeners() {
+  eventListeners.moveHistoryEventListener();
+}
+
+export { getRandomInt, createSquare, createEventListeners };
