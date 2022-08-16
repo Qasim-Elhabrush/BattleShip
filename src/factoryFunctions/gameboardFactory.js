@@ -30,11 +30,11 @@ export default class Gameboard {
   placeShip(baseX, baseY, nameOfShip, lengthOfShip) {
     if (this.playerOrComputer == "player") {
       let currentShip = new Ship(nameOfShip, lengthOfShip);
-      if (lengthOfShip + baseY < 10) {
+      if (baseY-lengthOfShip<0) {
         for (let h = 0; h < lengthOfShip; h++) {
           if (
-            this.board[baseX][baseY + h].shipName != undefined &&
-            this.board[baseX][baseY + h].shipIndex != undefined
+            this.board[baseX][baseY - h].shipName != undefined &&
+            this.board[baseX][baseY - h].shipIndex != undefined
           ) {
             return false;
           }
@@ -42,19 +42,19 @@ export default class Gameboard {
         this.ships.push(currentShip);
         currentShip.index = this.ships.length - 1;
         for (let i = 0; i < lengthOfShip; i++) {
-          this.board[baseX][baseY + i].shipName = nameOfShip;
-          this.board[baseX][baseY + i].shipIndex = currentShip.index;
+          this.board[baseX][baseY - i].shipName = nameOfShip;
+          this.board[baseX][baseY - i].shipIndex = currentShip.index;
         }
       } else {
         return false;
       }
     } else if (this.playerOrComputer == "computer") {
       let currentShip = new Ship(nameOfShip, lengthOfShip);
-      if (lengthOfShip + baseY < 10) {
+      if (baseY-lengthOfShip<0) {
         for (let h = 0; h < lengthOfShip; h++) {
           if (
-            this.board[baseX][baseY + h].shipName != undefined &&
-            this.board[baseX][baseY + h].shipIndex != undefined
+            this.board[baseX][baseY - h].shipName != undefined &&
+            this.board[baseX][baseY - h].shipIndex != undefined
           ) {
             return this.placeShip(
               getRandomInt(0),
@@ -67,8 +67,8 @@ export default class Gameboard {
         this.ships.push(currentShip);
         currentShip.index = this.ships.length - 1;
         for (let i = 0; i < lengthOfShip; i++) {
-          this.board[baseX][baseY + i].shipName = nameOfShip;
-          this.board[baseX][baseY + i].shipIndex = currentShip.index;
+          this.board[baseX][baseY - i].shipName = nameOfShip;
+          this.board[baseX][baseY - i].shipIndex = currentShip.index;
         }
       }
     } else {
