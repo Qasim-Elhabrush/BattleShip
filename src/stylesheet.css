@@ -69,8 +69,9 @@ h4 {
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
   gap: 1%;
+  grid-auto-flow: column;
 }
-.square {
+.squares {
   background-color: rgb(58, 58, 196);
   cursor: pointer;
 }
@@ -121,10 +122,41 @@ h4 {
   grid-template-rows: 10% 80% 10%;
 }
 #placeShipsTitle {
+    grid-row: 1/2;
   font-size: 2rem;
   justify-self: center;
   align-self: center;
 }
+#ships{
+    grid-row:2/3 ;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+}
+.ship{
+    color: white;
+    padding: 5%;
+    background-color: rgb(9, 9, 43);
+    width:fit-content;
+    height: 3%;
+    margin: 5%;
+    justify-self: center;
+    text-align: center;
+    align-self: center;
+    border-radius: 40%;
+    cursor: pointer;
+}
+.placed{
+    border-style: solid;
+    border-color: rgb(37, 185, 37);
+    border-width: 3px;
+}
+.selected{
+    border-style: solid;
+    border-color: rgb(37, 148, 185) ;
+    border-width: 3px;
+}
+
 #shipSubmit {
   grid-row: 3/4;
   align-self: center;
@@ -139,10 +171,4 @@ h4 {
 }
 #shipSubmit:hover {
   background-color: rgb(37, 185, 37);
-}
-#battleship {
-  background-color: rgb(144, 57, 125);
-  height: 340px;
-  width: 60px;
-  border-radius: 30px;
 }
