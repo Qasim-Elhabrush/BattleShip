@@ -1,3 +1,4 @@
+import { Gameplay } from "./gameplay";
 export const shipMap = {
   carrier: 5,
   battleship: 4,
@@ -40,8 +41,10 @@ export function gridSquareHoverEventlistener() {
   gridSquares.forEach((square) => {
     square.addEventListener("mouseover", () => {
       let selectedShips = document.querySelectorAll(".selected");
+      if (selectedShips.length == 0) {
+        return;
+      }
       let selectedShip = selectedShips[0];
-      console.log(selectedShip);
       let nameOfShip = selectedShip.id;
       let squareID = square.id;
       let length = shipMap[nameOfShip];
@@ -59,14 +62,15 @@ export function gridSquareHoverEventlistener() {
         if (parseInt(squareID[4]) - length + 1 < 0) {
           square.style.backgroundColor = "rgb(191, 49, 49)";
           affiliatedSquares.forEach((affiliatedSquare) => {
-            if(affiliatedSquare.classList.contains("taken")!=true)
-            {affiliatedSquare.style.backgroundColor = "rgb(191, 49, 49)";}
-            
+            if (affiliatedSquare.classList.contains("taken") != true) {
+              affiliatedSquare.style.backgroundColor = "rgb(191, 49, 49)";
+            }
           });
         } else {
           affiliatedSquares.forEach((affiliatedSquare) => {
-            if(affiliatedSquare.classList.contains("taken")!=true){ affiliatedSquare.style.backgroundColor = "rgb(37, 185, 37)";}
-           
+            if (affiliatedSquare.classList.contains("taken") != true) {
+              affiliatedSquare.style.backgroundColor = "rgb(37, 185, 37)";
+            }
           });
           square.style.backgroundColor = "rgb(37, 185, 37)";
         }
@@ -75,6 +79,9 @@ export function gridSquareHoverEventlistener() {
 
     square.addEventListener("mouseout", () => {
       let selectedShips = document.querySelectorAll(".selected");
+      if (selectedShips.length == 0) {
+        return;
+      }
       let selectedShip = selectedShips[0];
       console.log(selectedShip);
       let nameOfShip = selectedShip.id;
@@ -93,13 +100,15 @@ export function gridSquareHoverEventlistener() {
         if (parseInt(squareID[4]) - length + 1 < 0) {
           square.style.backgroundColor = "rgb(58, 58, 196)";
           affiliatedSquares.forEach((affiliatedSquare) => {
-            if(affiliatedSquare.classList.contains("taken")!=true){affiliatedSquare.style.backgroundColor = "rgb(58, 58, 196)";}
-            
+            if (affiliatedSquare.classList.contains("taken") != true) {
+              affiliatedSquare.style.backgroundColor = "rgb(58, 58, 196)";
+            }
           });
         } else {
           affiliatedSquares.forEach((affiliatedSquare) => {
-            if(affiliatedSquare.classList.contains("taken")!=true){affiliatedSquare.style.backgroundColor = "rgb(58, 58, 196)";}
-            
+            if (affiliatedSquare.classList.contains("taken") != true) {
+              affiliatedSquare.style.backgroundColor = "rgb(58, 58, 196)";
+            }
           });
           square.style.backgroundColor = "rgb(58, 58, 196)";
         }
@@ -107,25 +116,21 @@ export function gridSquareHoverEventlistener() {
     });
   });
 }
-export function placeShipsSubmit(){
-  let shipSubmit = document.getElementById("shipSubmit");
-  shipSubmit.addEventListener("click",()=>{
-    checkShipPlacement();
-    let shipContainer = document.getElementById("placeShips");
-    shipContainer.remove();
 
 
-
-  })
-
-
-}
-
-function checkShipPlacement(){
+export function shipsPlaced() {
   const carrier = document.getElementById("carrier");
-  const battleship= document.getElementById("battleship");
+  const battleship = document.getElementById("battleship");
   const cruiser = document.getElementById("cruiser");
   const submarine = document.getElementById("submarine");
-  const destroyer=document.getElementById("destroyer");
+  const destroyer = document.getElementById("destroyer");
+  const ships = [carrier, battleship, cruiser, submarine, destroyer];
+  const shipsPlaced = ships.map((ship) => {
+    return ship.classList.contains("placed");
+  });
 
+  function allShipsPlaced() {
+    return shipsPlaced.every((ship) => ship == true);
+  }
+  return allShipsPlaced();
 }

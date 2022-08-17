@@ -17,6 +17,7 @@ function createEventListeners() {
   eventListeners.moveHistoryEventListener();
   eventListeners.selectShipEventListener();
   eventListeners.gridSquareHoverEventlistener();
+ eventListeners.shipsPlaced();
 }
 
 export { getRandomInt, createSquare, createEventListeners };

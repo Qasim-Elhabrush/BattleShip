@@ -18,6 +18,7 @@ export default class Gameboard {
     this.missedShots = [];
     this.ships = [];
     this.playerOrComputer = playerOrComputer;
+    this.initialize();
   }
   initialize() {
     for (let i = 0; i < 10; i++) {
@@ -29,6 +30,7 @@ export default class Gameboard {
     this.placeShipEventListener();
   }
   placeShipEventListener(){
+    if(this.playerOrComputer=="computer"){return}
     let gridSquares = document.querySelectorAll(".squares");
     gridSquares.forEach((square) => { 
       square.addEventListener("click", ()=>{
@@ -84,7 +86,7 @@ export default class Gameboard {
         }
     } else if (this.playerOrComputer == "computer") {
       let currentShip = new Ship(nameOfShip, lengthOfShip);
-      if (baseY-lengthOfShip<0) {
+      if (baseY-lengthOfShip+1<0) {
         for (let h = 0; h < lengthOfShip; h++) {
           if (
             this.board[baseX][baseY - h].shipName != undefined &&
