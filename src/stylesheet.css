@@ -70,6 +70,7 @@ h4 {
   grid-template-rows: repeat(10, 1fr);
   gap: 1%;
   grid-auto-flow: column;
+  color: rgb(23, 234, 136);
 }
 .squares {
   background-color: rgb(58, 58, 196);
