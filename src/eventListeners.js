@@ -83,7 +83,6 @@ export function gridSquareHoverEventlistener() {
         return;
       }
       let selectedShip = selectedShips[0];
-      console.log(selectedShip);
       let nameOfShip = selectedShip.id;
       let squareID = square.id;
       let length = shipMap[nameOfShip];

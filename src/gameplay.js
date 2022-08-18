@@ -16,6 +16,33 @@ class Gameplay {
     this.placeShipsSubmit();
   }
 
+  
+ 
+  placeShipsSubmit() {
+    let shipSubmit = document.getElementById("shipSubmit");
+    shipSubmit.addEventListener("click", () => {
+      if (shipsPlaced()) {
+        let shipContainer = document.getElementById("placeShips");
+        shipContainer.remove();
+        this.playerOne.gameboard.removeBoard();
+        this.computerPlayer.gameboard.initialize();
+        
+        this.computerPlaceShips();
+        
+      }
+    });
+  }
+  computerPlaceShips() {
+    this.computerPlaceShip("carrier", 5);
+    this.computerPlaceShip("battleship", 4);
+    this.computerPlaceShip("submarine", 3);
+    this.computerPlaceShip("cruiser", 3);
+    this.computerPlaceShip("destroyer", 2); 
+    console.log(this.computerPlayer.gameboard.board)
+    console.log(this.computerPlayer.gameboard.ships)
+    this.computerPlayer.gameboard.computerWaitForAttack();
+}
+  
   computerPlaceShip(name, length) {
     this.computerPlayer.gameboard.placeShip(
       getRandomInt(0, 9),
@@ -23,53 +50,11 @@ class Gameplay {
       name,
       length
     );
+   
   }
-  playerOnePlaceShips() {
-    this.playerOne.gameboard.displayBoard();
-  }
-  placeShipsSubmit() {
-    let shipSubmit = document.getElementById("shipSubmit");
-    shipSubmit.addEventListener("click", () => {
-      if (shipsPlaced()) {
-        let shipContainer = document.getElementById("placeShips");
-        shipContainer.remove();
-        this.computerPlaceShips();
-      }
-    });
-  }
-  computerPlaceShips() {
-    this.computerPlaceShip("Carrier", 5);
-    this.computerPlaceShip("Battleship", 4);
-    this.computerPlaceShip("Submarine", 3);
-    this.computerPlaceShip("Cruiser", 3);
-    this.computerPlaceShip("Destroyer", 2);
-    console.log(this.computerPlayer.gameboard.board());
-  }
+ 
 
-  play() {
-    let gameEnded;
-    while (gameEnded != true) {
-      this.playerOne.attack(
-        this.computerPlayer,
-        attackLocationX,
-        attackLocationY
-      );
-      if (this.computerPlayer.gameboard.allSunk() == true) {
-        gameEnded = true;
-        alert("Winner");
-      } else {
-        this.computerPlayer.attack(
-          this.playerOne,
-          getRandomInt(0, 9),
-          getRandomInt(0, 9)
-        );
-        if (this.playerOne.gameboard.allSunk() == true) {
-          gameEnded = true;
-          alert("Winner");
-        }
-      }
-    }
-  }
 }
 
 let playGame = new Gameplay();
+

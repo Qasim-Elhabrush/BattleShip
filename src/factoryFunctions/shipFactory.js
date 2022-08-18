@@ -10,6 +10,7 @@ export default class Ship{
    
     gotHit(positionOfHit){
         this.hits.push(positionOfHit)
+        console.log(this.hits)
     }
     isSunk(){
         if(this.hits.length==this.lengthOfShip){
