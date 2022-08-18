@@ -17,7 +17,7 @@ class Gameplay {
   }
 
   
- 
+ //event listener that closes the playerone grid, the place ships display, and then calls the function that allows the computer to randomly place five ships
   placeShipsSubmit() {
     let shipSubmit = document.getElementById("shipSubmit");
     shipSubmit.addEventListener("click", () => {
@@ -32,6 +32,7 @@ class Gameplay {
       }
     });
   }
+  //places five ships ******** gameplay logic in this function for accessiblity purposes **********
   computerPlaceShips() {
     this.computerPlaceShip("carrier", 5);
     this.computerPlaceShip("battleship", 4);
@@ -40,9 +41,16 @@ class Gameplay {
     this.computerPlaceShip("destroyer", 2); 
     console.log(this.computerPlayer.gameboard.board)
     console.log(this.computerPlayer.gameboard.ships)
-    this.computerPlayer.gameboard.computerWaitForAttack();
+    this.computerPlayer.gameboard.waitForAttack();//beginning
+    this.computerPlayer.gameboard.removeBoard();
+    this.playerOne.gameboard.displayBoard();
+    this.computerPlayer.attack(this.playerOne,getRandomInt(0,9),getRandomInt(0,9))
+    supporting.sleep(2000)
+    this.playerOne.gameboard.removeBoard()
+    this.computerPlayer.gameboard.displayBoard();
+    this.computerPlayer.gameboard.waitForAttack();//back to beginning
 }
-  
+  //places single ship
   computerPlaceShip(name, length) {
     this.computerPlayer.gameboard.placeShip(
       getRandomInt(0, 9),
@@ -52,6 +60,7 @@ class Gameplay {
     );
    
   }
+
  
 
 }

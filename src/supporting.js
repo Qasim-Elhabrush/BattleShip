@@ -19,4 +19,12 @@ function createEventListeners() {
  eventListeners.shipsPlaced();
 }
 
-export { getRandomInt, createSquare, createEventListeners };
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
+
+export { getRandomInt, createSquare, createEventListeners,sleep};

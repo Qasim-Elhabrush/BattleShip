@@ -1,5 +1,5 @@
 import Ship from "./shipFactory";
-import { getRandomInt, createSquare } from "../supporting";
+import { getRandomInt, createSquare, sleep } from "../supporting";
 import { shipMap } from "../eventListeners";
 export default class Gameboard {
   constructor(playerOrComputer) {
@@ -79,7 +79,7 @@ export default class Gameboard {
         } 
         else if(this.board[i][j].sunk==true){
           let boardSquare = document.getElementById(`[${i}][${j}]`);
-          boardSquare.style.backgroundColor = "rgb(0,0,0)";
+          boardSquare.style.backgroundColor = "rgb(180,20,20)";
         }
         else if(this.board[i][j].missedAttack ==true){
           let boardSquare = document.getElementById(`[${i}][${j}]`);
@@ -162,9 +162,9 @@ export default class Gameboard {
       this.board[coordinateX][coordinateY].shipName == undefined &&
       this.board[coordinateX][coordinateY].shipIndex == undefined
     ) {
-     
       this.missedShots.push(positionArr);
-      console.log(this.missedShots);
+      this.board[coordinateX][coordinateY].missedAttack=true;
+
     } else {
       let indexOfHitShip = this.board[coordinateX][coordinateY].shipIndex;
       this.board[coordinateX][coordinateY].hit =true;
@@ -210,15 +210,14 @@ export default class Gameboard {
     this.updateBoard();
   }
 
-  computerWaitForAttack() {
-    this.attacked=false;
+  waitForAttack() {
     let gridSquares = document.querySelectorAll(".squares");
     gridSquares.forEach((square) => {
       square.addEventListener("click", () => {
         if (this.attacked == true) {
           return;
         } else {
-          //this.attacked = true;
+          this.attacked = true;
           let squareID= square.id;
           this.receiveAttack(squareID[1],squareID[4]);
         }
