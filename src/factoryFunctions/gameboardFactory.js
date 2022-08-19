@@ -1,6 +1,7 @@
 import Ship from "./shipFactory";
-import { getRandomInt, createSquare, sleep } from "../supporting";
+import { getRandomInt, createSquare } from "../supporting";
 import { shipMap } from "../eventListeners";
+import { playGame } from "../gameplay";
 export default class Gameboard {
   constructor(playerOrComputer) {
     this.board = [
@@ -66,14 +67,7 @@ export default class Gameboard {
   updateBoard() {
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
-        if (
-          this.board[i][j].placed == true &&
-          this.playerOrComputer == "player"
-        ) {
-          let boardSquare = document.getElementById(`[${i}][${j}]`);
-          boardSquare.style.backgroundColor = "rgb(23, 234, 136)";
-          boardSquare.classList.add("taken");
-        } else if (this.board[i][j].hit == true && this.board[i][j].sunk!=true) {
+      if (this.board[i][j].hit == true && this.board[i][j].sunk!=true) {
           let boardSquare = document.getElementById(`[${i}][${j}]`);
           boardSquare.style.backgroundColor = "rgb(205, 92, 27)";
         } 
@@ -84,7 +78,17 @@ export default class Gameboard {
         else if(this.board[i][j].missedAttack ==true){
           let boardSquare = document.getElementById(`[${i}][${j}]`);
           boardSquare.style.backgroundColor = "rgb(0,0,0)";
-        }
+        }  
+        else if (
+          this.board[i][j].placed == true &&
+          this.playerOrComputer == "player"&&
+          this.board[i][j].hit!=true&&
+          this.board[i][j].sunk!=true
+        ) {
+          let boardSquare = document.getElementById(`[${i}][${j}]`);
+          boardSquare.style.backgroundColor = "rgb(23, 234, 136)";
+          boardSquare.classList.add("taken");
+        } 
         else {
           let boardSquare = document.getElementById(`[${i}][${j}]`);
           boardSquare.style.backgroundColor = "rgb(58, 58, 196)";
@@ -92,7 +96,7 @@ export default class Gameboard {
       }
     }
     if(this.allSunk()){
-      console.log("winner")
+      console.log(this.playerOrComputer+" Wins!");
     }
   }
 
@@ -158,6 +162,12 @@ export default class Gameboard {
 
   receiveAttack(coordinateX, coordinateY) { 
     const positionArr = [coordinateX,coordinateY];
+    if( this.board[coordinateX][coordinateY].missedAttack==true||
+        this.board[coordinateX][coordinateY].hit == true||
+        this.board[coordinateX][coordinateY].sunk==true
+      ){
+      playGame.computerPlayer.attack(playGame.playerOne,getRandomInt(0,9),getRandomInt(0,9))
+    }
     if (
       this.board[coordinateX][coordinateY].shipName == undefined &&
       this.board[coordinateX][coordinateY].shipIndex == undefined
@@ -208,9 +218,17 @@ export default class Gameboard {
       }
     }
     this.updateBoard();
+    const boardName=document.getElementById("boardName");
+    if(this.playerOrComputer=="player"){
+      boardName.innerText="Player Board";
+    }
+    else{
+      boardName.innerText="Computer Board"
+    }
   }
 
   waitForAttack() {
+    this.attacked=false;
     let gridSquares = document.querySelectorAll(".squares");
     gridSquares.forEach((square) => {
       square.addEventListener("click", () => {
@@ -220,6 +238,12 @@ export default class Gameboard {
           this.attacked = true;
           let squareID= square.id;
           this.receiveAttack(squareID[1],squareID[4]);
+          setTimeout(()=>{
+            playGame.play();
+          },500);
+
+        
+
         }
       });
     });
