@@ -178,7 +178,7 @@ export default class Gameboard {
     } else {
       let indexOfHitShip = this.board[coordinateX][coordinateY].shipIndex;
       this.board[coordinateX][coordinateY].hit =true;
-      let hitShip = this.ships[indexOfHitShip]; 
+      let hitShip = this.ships[indexOfHitShip];     
       hitShip.gotHit(positionArr);
       if(hitShip.isSunk()){
         for(let i = 0;i<hitShip.hits.length;i++){
@@ -186,8 +186,8 @@ export default class Gameboard {
           const y = hitShip.hits[i][1];
           this.board[x][y].sunk = true;
         }
-
       }
+      
      
     }
     this.updateBoard();

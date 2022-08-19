@@ -48,7 +48,7 @@ class Gameplay {
     this.playerOne.gameboard.displayBoard();  
     setTimeout(() => {
           this.computerPlayer.attack(this.playerOne,getRandomInt(0,9),getRandomInt(0,9))
-    }, 500); 
+    }, 1000); 
   
 
     
@@ -56,7 +56,7 @@ class Gameplay {
     this.playerOne.gameboard.removeBoard()
     this.computerPlayer.gameboard.displayBoard();
     this.computerPlayer.gameboard.waitForAttack();
-    }, 1000);
+    }, 2000);
     }
 
   
