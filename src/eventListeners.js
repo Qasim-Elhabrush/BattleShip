@@ -133,3 +133,10 @@ export function shipsPlaced() {
   }
   return allShipsPlaced();
 }
+
+export function restartGameEventListener(){
+  let restartButton = document.getElementById("restart");
+  restartButton.addEventListener("click",()=>{
+    window.location.reload();
+  })
+}

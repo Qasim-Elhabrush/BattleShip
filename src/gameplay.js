@@ -6,7 +6,7 @@ import Computer from "./factoryFunctions/computerFactory";
 import css from "./stylesheet.css";
 import player from "./factoryFunctions/playerFactory";
 import * as supporting from "./supporting";
-import { shipsPlaced } from "./eventListeners";
+import { restartGameEventListener, shipsPlaced } from "./eventListeners";
 
 class Gameplay {
   constructor() {
@@ -40,26 +40,25 @@ class Gameplay {
     console.log(this.computerPlayer.gameboard.board);
     console.log(this.computerPlayer.gameboard.ships);
     this.computerPlayer.gameboard.waitForAttack();
-
   }
-  play(){
-  
-    this.computerPlayer.gameboard.removeBoard(); 
-    this.playerOne.gameboard.displayBoard();  
+  play() {
+    this.computerPlayer.gameboard.removeBoard();
+    this.playerOne.gameboard.displayBoard();
     setTimeout(() => {
-          this.computerPlayer.attack(this.playerOne,getRandomInt(0,9),getRandomInt(0,9))
-    }, 1000); 
-  
+      this.computerPlayer.attack(
+        this.playerOne,
+        getRandomInt(0, 9),
+        getRandomInt(0, 9)
+      );
+    }, 1000);
 
-    
-    setTimeout(()=>{
-    this.playerOne.gameboard.removeBoard()
-    this.computerPlayer.gameboard.displayBoard();
-    this.computerPlayer.gameboard.waitForAttack();
+    setTimeout(() => {
+      this.playerOne.gameboard.removeBoard();
+      this.computerPlayer.gameboard.displayBoard();
+      this.computerPlayer.gameboard.waitForAttack();
     }, 2000);
-    }
+  }
 
-  
   computerPlaceShip(name, length) {
     this.computerPlayer.gameboard.placeShip(
       getRandomInt(0, 9),
@@ -68,8 +67,13 @@ class Gameplay {
       length
     );
   }
+
+  winner(nameOfLoser){
+    supporting.displayWinner(nameOfLoser);
+     restartGameEventListener();
+  }
+
 }
 
 let playGame = new Gameplay();
-export {playGame}
-
+export { playGame };

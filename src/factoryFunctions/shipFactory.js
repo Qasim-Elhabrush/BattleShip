@@ -7,7 +7,7 @@ export default class Ship {
   }
 
   gotHit(positionOfHit) {
-    let positionAlreadyRecorded=false;
+    let positionAlreadyRecorded = false;
     for (let i = 0; i < this.hits.length; i++) {
       if (JSON.stringify(this.hits[i]) == JSON.stringify(positionOfHit)) {
         positionAlreadyRecorded = true;
@@ -18,7 +18,6 @@ export default class Ship {
       console.log(this.hits);
     }
   }
-
 
   isSunk() {
     if (this.hits.length == this.lengthOfShip) {

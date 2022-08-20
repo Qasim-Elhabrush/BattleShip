@@ -1,5 +1,5 @@
 import Ship from "./shipFactory";
-import { getRandomInt, createSquare } from "../supporting";
+import { getRandomInt, createSquare, logHitShip, logSunkShip } from "../supporting";
 import { shipMap } from "../eventListeners";
 import { playGame } from "../gameplay";
 export default class Gameboard {
@@ -30,7 +30,7 @@ export default class Gameboard {
           placed: false,
           hit: false,
           sunk: false,
-          missedAttack:false
+          missedAttack: false,
         };
         createSquare(`[${i}][${j}]`);
       }
@@ -67,36 +67,32 @@ export default class Gameboard {
   updateBoard() {
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
-      if (this.board[i][j].hit == true && this.board[i][j].sunk!=true) {
+        if (this.board[i][j].hit == true && this.board[i][j].sunk != true) {
           let boardSquare = document.getElementById(`[${i}][${j}]`);
           boardSquare.style.backgroundColor = "rgb(205, 92, 27)";
-        } 
-        else if(this.board[i][j].sunk==true){
+        } else if (this.board[i][j].sunk == true) {
           let boardSquare = document.getElementById(`[${i}][${j}]`);
           boardSquare.style.backgroundColor = "rgb(180,20,20)";
-        }
-        else if(this.board[i][j].missedAttack ==true){
+        } else if (this.board[i][j].missedAttack == true) {
           let boardSquare = document.getElementById(`[${i}][${j}]`);
           boardSquare.style.backgroundColor = "rgb(0,0,0)";
-        }  
-        else if (
+        } else if (
           this.board[i][j].placed == true &&
-          this.playerOrComputer == "player"&&
-          this.board[i][j].hit!=true&&
-          this.board[i][j].sunk!=true
+          this.playerOrComputer == "player" &&
+          this.board[i][j].hit != true &&
+          this.board[i][j].sunk != true
         ) {
           let boardSquare = document.getElementById(`[${i}][${j}]`);
           boardSquare.style.backgroundColor = "rgb(23, 234, 136)";
           boardSquare.classList.add("taken");
-        } 
-        else {
+        } else {
           let boardSquare = document.getElementById(`[${i}][${j}]`);
           boardSquare.style.backgroundColor = "rgb(58, 58, 196)";
         }
       }
     }
-    if(this.allSunk()){
-      console.log(this.playerOrComputer+" Wins!");
+    if (this.allSunk()) {
+      playGame.winner(this.playerOrComputer);
     }
   }
 
@@ -160,35 +156,39 @@ export default class Gameboard {
     this.updateBoard();
   }
 
-  receiveAttack(coordinateX, coordinateY) { 
-    const positionArr = [coordinateX,coordinateY];
-    if( this.board[coordinateX][coordinateY].missedAttack==true||
-        this.board[coordinateX][coordinateY].hit == true||
-        this.board[coordinateX][coordinateY].sunk==true
-      ){
-      playGame.computerPlayer.attack(playGame.playerOne,getRandomInt(0,9),getRandomInt(0,9))
+  receiveAttack(coordinateX, coordinateY) {
+    const positionArr = [coordinateX, coordinateY];
+    if (
+      this.board[coordinateX][coordinateY].missedAttack == true ||
+      this.board[coordinateX][coordinateY].hit == true ||
+      this.board[coordinateX][coordinateY].sunk == true
+    ) {
+      playGame.computerPlayer.attack(
+        playGame.playerOne,
+        getRandomInt(0, 9),
+        getRandomInt(0, 9)
+      );
     }
     if (
       this.board[coordinateX][coordinateY].shipName == undefined &&
       this.board[coordinateX][coordinateY].shipIndex == undefined
     ) {
       this.missedShots.push(positionArr);
-      this.board[coordinateX][coordinateY].missedAttack=true;
-
+      this.board[coordinateX][coordinateY].missedAttack = true;
     } else {
       let indexOfHitShip = this.board[coordinateX][coordinateY].shipIndex;
-      this.board[coordinateX][coordinateY].hit =true;
-      let hitShip = this.ships[indexOfHitShip];     
+      this.board[coordinateX][coordinateY].hit = true;
+      let hitShip = this.ships[indexOfHitShip];
+      logHitShip(this.playerOrComputer,hitShip.name);
       hitShip.gotHit(positionArr);
-      if(hitShip.isSunk()){
-        for(let i = 0;i<hitShip.hits.length;i++){
+      if (hitShip.isSunk()) {
+        logSunkShip(this.playerOrComputer,hitShip.name)
+        for (let i = 0; i < hitShip.hits.length; i++) {
           const x = hitShip.hits[i][0];
           const y = hitShip.hits[i][1];
           this.board[x][y].sunk = true;
         }
       }
-      
-     
     }
     this.updateBoard();
   }
@@ -218,32 +218,29 @@ export default class Gameboard {
       }
     }
     this.updateBoard();
-    const boardName=document.getElementById("boardName");
-    if(this.playerOrComputer=="player"){
-      boardName.innerText="Player Board";
-    }
-    else{
-      boardName.innerText="Computer Board"
+    const boardName = document.getElementById("boardName");
+    if (this.playerOrComputer == "player") {
+      boardName.innerText = "Player Board";
+    } else {
+      boardName.innerText = "Computer Board";
     }
   }
 
   waitForAttack() {
-    this.attacked=false;
+    this.attacked = false;
     let gridSquares = document.querySelectorAll(".squares");
     gridSquares.forEach((square) => {
       square.addEventListener("click", () => {
+        if(square.style.backgroundColor != "rgb(58, 58, 196)"){return}
         if (this.attacked == true) {
           return;
         } else {
           this.attacked = true;
-          let squareID= square.id;
-          this.receiveAttack(squareID[1],squareID[4]);
-          setTimeout(()=>{
+          let squareID = square.id;
+          this.receiveAttack(squareID[1], squareID[4]);
+          setTimeout(() => {
             playGame.play();
-          },500);
-
-        
-
+          }, 500);
         }
       });
     });
